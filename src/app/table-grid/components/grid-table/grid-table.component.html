@@ -1,0 +1,77 @@
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Type</th>
+      <th>Cow ID</th>
+      <th>Animal ID</th>
+      <th>Start Date Time</th>
+      <th>Reporting Date Time</th>
+      <th>Health Index</th>
+      <th>End Date</th>
+      <th>Min Value Date Time</th>
+      <th>Deletable</th>
+      <th>Lactation Number</th>
+      <th>Days In Lactation</th>
+      <th>Age In Days</th>
+      <th>Alert Type</th>
+      <th>Duration</th>
+      <th>Original Start Date Time</th>
+      <th>End Date Time</th>
+      <th>Days In Pregnancy</th>
+      <th>New Group ID</th>
+      <th>New Group Name</th>
+      <th>Current Group ID</th>
+      <th>Current Group Name</th>
+      <th>Destination Group</th>
+      <th>Destination Group Name</th>
+      <th>Calving Ease</th>
+      <th>Old Lactation Number</th>
+      <th>Newborns</th>
+      <th>Sire</th>
+      <th>Breeding Number</th>
+      <th>Is Out Of Breeding Window</th>
+      <th>Interval</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of tableData">
+      <td><input *ngIf="row['id']" type="text" value="{{row['id']}}"></td>
+      <td><input *ngIf="row['type']" type="text" value="{{row['type']}}"></td>
+      <td><input *ngIf="row['cowId']" type="text" value="{{row['cowId']}}"></td>
+      <td><input *ngIf="row['animalId']" type="text" value="{{row['animalId']}}"></td>
+      <td><input *ngIf="row['startDateTime']" type="text" value="{{row['startDateTime']}}"></td>
+      <td>{{row["reportingDateTime"] | empty}}</td>
+      <td>{{row["healthIndex"] | empty}}</td>
+      <td>{{row["endDate"] | empty}}</td>
+      <td>{{row["minValueDateTime"] | empty}}</td>
+      <td>{{row["deletable"] | empty}}</td>
+      <td>{{row["endDate"] | empty}}</td>
+      <td>{{row["lactationNumber"] | empty}}</td>
+      <td>{{row["daysInLactation"] | empty}}</td>
+      <td>{{row["ageInDays"] | empty}}</td>
+      <td>{{row["alertType"] | empty}}</td>
+      <td>{{row["duration"] | empty}}</td>
+      <td>{{row["originalStartDateTime"] | empty}}</td>
+      <td>{{row["endDateTime"] | empty}}</td>
+      <td>{{row["daysInPregnancy"] | empty}}</td>
+      <td>{{row["currentGroupId"] | empty}}</td>
+      <td>{{row["currentGroupName"] | empty}}</td>
+      <td>{{row["newGroupId"] | empty}}</td>
+      <td>{{row["newGroupName"] | empty}}</td>
+      <td>{{row["destinationGroupId"] | empty}}</td>
+      <td>{{row["calvingEase"] | empty}}</td>
+      <td>{{row["oldLactationNumber"] | empty}}</td>
+      <td>{{row["newborns"] | empty}}</td>
+      <td>{{row["sire"] | empty}}</td>
+      <td>{{row["breedingNumber"] | empty}}</td>
+      <td>{{row["isOutOfBreedingWindow"] | empty}}</td>
+      <td>{{row["interval"] | empty}}</td>
+      <td>
+        <button (click)="onEdit(row)">Edit</button>
+        <button (click)="onDelete(row)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
