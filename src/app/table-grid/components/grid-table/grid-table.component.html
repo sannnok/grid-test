@@ -1,77 +1,28 @@
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Type</th>
-      <th>Cow ID</th>
-      <th>Animal ID</th>
-      <th>Start Date Time</th>
-      <th>Reporting Date Time</th>
-      <th>Health Index</th>
-      <th>End Date</th>
-      <th>Min Value Date Time</th>
-      <th>Deletable</th>
-      <th>Lactation Number</th>
-      <th>Days In Lactation</th>
-      <th>Age In Days</th>
-      <th>Alert Type</th>
-      <th>Duration</th>
-      <th>Original Start Date Time</th>
-      <th>End Date Time</th>
-      <th>Days In Pregnancy</th>
-      <th>New Group ID</th>
-      <th>New Group Name</th>
-      <th>Current Group ID</th>
-      <th>Current Group Name</th>
-      <th>Destination Group</th>
-      <th>Destination Group Name</th>
-      <th>Calving Ease</th>
-      <th>Old Lactation Number</th>
-      <th>Newborns</th>
-      <th>Sire</th>
-      <th>Breeding Number</th>
-      <th>Is Out Of Breeding Window</th>
-      <th>Interval</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let row of tableData">
-      <td><input *ngIf="row['id']" type="text" value="{{row['id']}}"></td>
-      <td><input *ngIf="row['type']" type="text" value="{{row['type']}}"></td>
-      <td><input *ngIf="row['cowId']" type="text" value="{{row['cowId']}}"></td>
-      <td><input *ngIf="row['animalId']" type="text" value="{{row['animalId']}}"></td>
-      <td><input *ngIf="row['startDateTime']" type="text" value="{{row['startDateTime']}}"></td>
-      <td>{{row["reportingDateTime"] | empty}}</td>
-      <td>{{row["healthIndex"] | empty}}</td>
-      <td>{{row["endDate"] | empty}}</td>
-      <td>{{row["minValueDateTime"] | empty}}</td>
-      <td>{{row["deletable"] | empty}}</td>
-      <td>{{row["endDate"] | empty}}</td>
-      <td>{{row["lactationNumber"] | empty}}</td>
-      <td>{{row["daysInLactation"] | empty}}</td>
-      <td>{{row["ageInDays"] | empty}}</td>
-      <td>{{row["alertType"] | empty}}</td>
-      <td>{{row["duration"] | empty}}</td>
-      <td>{{row["originalStartDateTime"] | empty}}</td>
-      <td>{{row["endDateTime"] | empty}}</td>
-      <td>{{row["daysInPregnancy"] | empty}}</td>
-      <td>{{row["currentGroupId"] | empty}}</td>
-      <td>{{row["currentGroupName"] | empty}}</td>
-      <td>{{row["newGroupId"] | empty}}</td>
-      <td>{{row["newGroupName"] | empty}}</td>
-      <td>{{row["destinationGroupId"] | empty}}</td>
-      <td>{{row["calvingEase"] | empty}}</td>
-      <td>{{row["oldLactationNumber"] | empty}}</td>
-      <td>{{row["newborns"] | empty}}</td>
-      <td>{{row["sire"] | empty}}</td>
-      <td>{{row["breedingNumber"] | empty}}</td>
-      <td>{{row["isOutOfBreedingWindow"] | empty}}</td>
-      <td>{{row["interval"] | empty}}</td>
-      <td>
-        <button (click)="onEdit(row)">Edit</button>
-        <button (click)="onDelete(row)">Delete</button>
+<div class="table-container">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  
+    <ng-container *ngFor="let column of columns" [matColumnDef]="column.property">
+      <th mat-header-cell *matHeaderCellDef>{{ column.label }}</th>
+      <td mat-cell *matCellDef="let element" [formGroup]="rowFormGroup">
+        <input *ngIf="element[column.property]" type="text" formControlName="{{ column.property + '_' + element.eventId }}" matInput>
       </td>
-    </tr>
-  </tbody>
-</table>
+    </ng-container>
+    
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="warn" (click)="onDelete(element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+  
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+  </table>
+</div>
+<mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" [length]="totalRecords"
+               (page)="onPageChange($event)">
+</mat-paginator>

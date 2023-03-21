@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { MockInterceptor } from './interceptors/mock.interceptor';
 import { TableGridModule } from './table-grid/table-grid.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { TableGridModule } from './table-grid/table-grid.module';
   imports: [
     BrowserModule,
     HttpClientModule,
-    TableGridModule
+    TableGridModule,
+    BrowserAnimationsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: MockInterceptor, multi: true }

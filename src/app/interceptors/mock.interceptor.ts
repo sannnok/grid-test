@@ -17,16 +17,19 @@ export class MockInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const { url, method, headers, body } = request;
+    console.log('removing: ', url)
 
     switch (true) {
+      
       case url.endsWith('/events') && method === 'GET':
         return this.getEvents();
       // case url.endsWith('/events') && method === 'POST':
       //   return postEvent();
       // case url.endsWith('/events') && method === 'PUT':
       //   return editEvent();
-      // case url.endsWith('/events') && method === 'DELETE':
-      //   return deleteEvent();
+      case url.includes('/events') && method === 'DELETE':
+        console.log('removing: ', url)
+        return this.deleteEvent(1);
       default:
         return next.handle(request);
     }    
@@ -34,6 +37,11 @@ export class MockInterceptor implements HttpInterceptor {
 
   public getEvents() {
     return this.ok(EVENTS);
+  }
+  
+  public deleteEvent(eventId: number) {
+    EVENTS.result = EVENTS.result.filter(event => event.eventId !== eventId);
+    return this.ok();
   }
 
   private ok(body?: any) {

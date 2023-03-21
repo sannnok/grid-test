@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { TableData } from './interfaces/data.interface';
+import { Observable } from 'rxjs';
+import { DeviceEvent, TableData } from './interfaces/event.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -16,17 +15,17 @@ export class APIService {
     return this.http.get<TableData>(this.apiUrl);
   }
 
-  addTableData(row: {[key: string]: string}): Observable<TableData> {
+  addTableData(row: DeviceEvent): Observable<TableData> {
     return this.http.post<TableData>(this.apiUrl, row);
   }
 
-  updateTableData(row: {[key: string]: string}): Observable<void> {
-    const url = `${this.apiUrl}/${row['id']}`;
-    return this.http.put(url, row).pipe(map(() => undefined));
+  updateTableData(row: DeviceEvent): Observable<Object> {
+    const url = `${this.apiUrl}/${row.eventId}`;
+    return this.http.put(url, row);
   }
 
-  deleteTableData(id: number): Observable<void> {
+  deleteTableData(id: number): Observable<Object> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.delete(url).pipe(map(() => undefined));
+    return this.http.delete(url);
   }
 }
