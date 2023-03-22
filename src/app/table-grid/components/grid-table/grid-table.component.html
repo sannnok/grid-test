@@ -3,8 +3,8 @@
   
     <ng-container *ngFor="let column of columns" [matColumnDef]="column.property">
       <th mat-header-cell *matHeaderCellDef>{{ column.label }}</th>
-      <td mat-cell *matCellDef="let element" [formGroup]="rowFormGroup">
-        <input *ngIf="element[column.property]" type="text" formControlName="{{ column.property + '_' + element.eventId }}" matInput>
+      <td mat-cell *matCellDef="let element" [formGroup]="formGroup">
+        <input type="text" formControlName="{{ column.property + '_' + element.eventId }}" matInput>
       </td>
     </ng-container>
     
@@ -23,6 +23,11 @@
   
   </table>
 </div>
-<mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" [length]="totalRecords"
-               (page)="onPageChange($event)">
-</mat-paginator>
+<div class="table-footer">
+  <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" [length]="totalRecords"
+                 (page)="onPageChange($event)">
+  </mat-paginator>
+  <button mat-icon-button color="warn" (click)="onAdd()">
+    <mat-icon>playlist_add</mat-icon>
+  </button>
+</div>

@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { COLUMNS } from 'src/assets/columns';
 import { APIService } from '../../api.service';
 import { DeviceEvent } from '../../interfaces/event.interface';
-
+import { v1 as uuid } from 'uuid';
 
 @Component({
   selector: 'app-grid-table',
@@ -16,12 +16,10 @@ export class GridTableComponent implements OnInit {
   public dataSource: MatTableDataSource<DeviceEvent> = new MatTableDataSource();
   public columns = COLUMNS;
   public displayedColumns = this.columns.map(column => column.property).concat('actions');
-
-  public rowFormGroup: FormGroup = new FormGroup([]);
-
-  pageSize = 10;
-  pageSizeOptions = [10, 25, 50, 100];
-  totalRecords = 0;
+  public formGroup: FormGroup = new FormGroup([]);
+  public pageSize = 10;
+  public pageSizeOptions = [10, 25, 50, 100];
+  public totalRecords = 0;
 
   constructor(private apiService: APIService, private formBuilder: FormBuilder) {}
 
@@ -30,10 +28,10 @@ export class GridTableComponent implements OnInit {
       this.dataSource.data = data.result;
       this.totalRecords = data.result.length;
 
-      this.rowFormGroup = this.formBuilder.group({});
+      this.formGroup = this.formBuilder.group({});
       this.dataSource.data.forEach(event => {
         this.columns.forEach(column => {
-          this.rowFormGroup.addControl(column.property + '_' + event.eventId, this.formBuilder.control((event as any)[column.property]));
+          this.formGroup.addControl(column.property + '_' + event.eventId, this.formBuilder.control((event as any)[column.property]));
         });
       });
     });
@@ -46,9 +44,22 @@ export class GridTableComponent implements OnInit {
   }
 
   public onAdd(): void {
+    const newEventId = uuid();
+    this.columns.forEach(column => {
+      this.formGroup.addControl(column.property + '_' + newEventId, this.formBuilder.control((event as any)[column.property]));
+    });
+    this.dataSource.data = [...this.dataSource.data, { eventId: newEventId } as any]
   }
 
   public onDelete(row: DeviceEvent): void {
-    this.apiService.deleteTableData(row.eventId);
+    this.apiService.deleteTableData(row.eventId).subscribe(() => this.updateDataSource());
+    // Remove model controls
+  }
+
+  private updateDataSource() {
+    this.apiService.getTableData().subscribe(data => {
+      this.dataSource.data = data.result;
+      this.totalRecords = data.result.length;
+    });
   }
 }

@@ -13,11 +13,11 @@ import { EVENTS } from '../../assets/data'
 export class MockInterceptor implements HttpInterceptor {
 
   constructor() {
+    console.log('it should execute one time')
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const { url, method, headers, body } = request;
-    console.log('removing: ', url)
 
     switch (true) {
       
@@ -28,8 +28,7 @@ export class MockInterceptor implements HttpInterceptor {
       // case url.endsWith('/events') && method === 'PUT':
       //   return editEvent();
       case url.includes('/events') && method === 'DELETE':
-        console.log('removing: ', url)
-        return this.deleteEvent(1);
+        return this.deleteEvent(+url.slice(url.lastIndexOf('/') + 1));
       default:
         return next.handle(request);
     }    

@@ -17,6 +17,18 @@
   
     input {
       border: none;
+      line-height: 32px;
     }
   }
+}
+
+.table-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 8px;
+}
+
+button {
+  cursor: pointer;
 }
