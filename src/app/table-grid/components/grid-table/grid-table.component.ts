@@ -6,6 +6,11 @@ import { APIService } from '../../api.service';
 import { DeviceEvent } from '../../interfaces/event.interface';
 import { v1 as uuid } from 'uuid';
 
+/**
+ * We have an opportunity to modify table rows in the whole table as data binded to Reactive Forms.
+ * This is like a caching feature for prevent loosing data, cache it, edit all at once.
+ */
+
 @Component({
   selector: 'app-grid-table',
   templateUrl: './grid-table.component.html',
