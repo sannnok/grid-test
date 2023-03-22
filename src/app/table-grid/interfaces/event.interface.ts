@@ -1,7 +1,7 @@
 export interface TableData {
-  offset: 0,
-  limit: 100,
-  total: 16976,
+  offset: number,
+  limit: number,
+  total: number,
   result: DeviceEvent[];
 }
 
